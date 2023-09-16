@@ -224,4 +224,5 @@ package require openlane 0.9
 prep -design picorv32a
 run_synthesis
 ```
+
 </details>
