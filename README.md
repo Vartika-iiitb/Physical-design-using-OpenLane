@@ -56,5 +56,9 @@ The Figure shown below shows the representation :
 ![Screenshot from 2023-09-16 18-40-16](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/e4bc8336-ee32-4fff-b742-5c0a56dcbcf3)
 
 **SoC Design and OpenLANE**
+![Screenshot from 2023-09-16 19-05-17](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/698b6b22-612a-4e4c-b6d3-15c03b3a593b)
+![Screenshot from 2023-09-16 19-17-39](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/86bc8569-9438-4483-ace2-343088b100f3)
+
+![Screenshot from 2023-09-16 19-05-11](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/3f4ede54-22ba-486b-a214-e573dd3dfdd8)
 
 </details>
