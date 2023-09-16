@@ -2,6 +2,7 @@
 
 
 #  Day 1 : Inception of open-source EDA ,OpenLANE and sky130 pdk
+
 <details>
   <summary>
       How to talk to computers
@@ -138,12 +139,13 @@ The RTL2GDS flow is a complex and highly specialized process that requires exper
 
 ![Screenshot from 2023-09-17 02-20-53](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/b16c3eda-7a5b-47e8-8127-478a143f9ba0)
 
-
 </details>
+
 <details>
   <summary>
     OpenLANE detailed ASIC design flow
   </summary>
+  
 OpenLane is an open-source RTL-to-GDSII (Register-Transfer Level to Graphic Data System) flow, which is a complete toolchain for designing and manufacturing integrated circuits. OpenLane automates many of the steps involved in ASIC (Application-Specific Integrated Circuit) design, such as synthesis, placement, routing, and physical verification. It's part of the broader open-source hardware movement and is designed to make ASIC design more accessible and affordable.
   On the other hand, Strive chipsets are a family of RISC-V System on Chips (SoCs) designed using the SkyWater 130nm process. RISC-V is an open standard instruction set architecture (ISA) based on established reduced instruction set computer (RISC) principles.
 
@@ -154,7 +156,7 @@ OpenLane is an open-source RTL-to-GDSII (Register-Transfer Level to Graphic Data
 
 OpenLANE ASIC Flow:
 
-**1. RTL Synthesis, Technology Mapping, and Formal Verification:
+1. RTL Synthesis, Technology Mapping, and Formal Verification:
 Tools: Yosys (for RTL synthesis), ABC (for technology mapping and formal verification).
 
 Static Timing Analysis:
