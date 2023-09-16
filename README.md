@@ -207,5 +207,21 @@ The fig shown below depicts the OpenLANE ASIC Flow:
   <summary>
     OpenLANE Installation
   </summary>
+  
+**Steps to Install OpenLANE**
+  ``
+  cd $HOME
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt install -y build-essential python3 python3-venv python3-pip make git
+```
 
+```
+cd ~/OpenLane
+make mount
+./flow.tcl -interactive
+package require openlane 0.9
+prep -design picorv32a
+run_synthesis
+```
 </details>
