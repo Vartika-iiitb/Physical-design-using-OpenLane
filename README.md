@@ -905,10 +905,23 @@ Designers must consider setup and hold times when designing digital circuits to 
 
 ![Screenshot from 2023-09-18 01-00-12](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/f4e11978-2985-4842-aa7c-55cc0d0d9fa1)
 
+
+</details>
+
+<details>
+  <summary>
+    Timing Analysis with ideal clocks using OpenSTA
+  </summary>
+	1. Setup time is the required time duration that the input data is stable before the triggering-edge of the clock.
+2. If data is changing within this setup time window, the input data might be lost and not stored in the flip-flop as metastability might occur.
+3. Metastability: When setup and hold time requirements are violated, the flip-flop state becomes unstable, and after an unpredictable duration, the state of the flip-flop can settle either way (1 or 0). This scenario is known as metastability.
+As shown in the following figure, output Q1 passes through the slow logic and arrives late at the input D2 of FF2, which leads to setup time violation and the loss of the new data. Thus combinational delay must be less than clock frequency - setup time
+![Screenshot from 2023-09-18 01-00-12](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/ea2c2f5f-0979-428b-8e98-701a8a92081b)
+
 **Clock Jitter**
 Clock jitter is a phenomenon in digital and analog systems that refers to the variation or deviation in the timing of a clock signal's edges from their ideal positions. Clock jitter can impact the reliability and performance of electronic systems and is an important consideration in various applications, including data communication, signal processing, and integrated circuit (IC) design. 
 
-![Screenshot from 2023-09-18 01-05-38](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/aef0375f-9222-4d61-bbe1-16ee57e2614b)
+![Screenshot from 2023-09-18 01-05-38](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/6e282aed-69c3-4170-9813-bcbd09691b1c)
 
 Different types of Jitter are as follows:
 
@@ -927,18 +940,6 @@ Timing analysis is carried out outside the openLANE flow using OpenSTA tool. For
 ```
 sta pre_sta.conf
 ```
-
-</details>
-
-<details>
-  <summary>
-    Timing Analysis with ideal clocks using OpenSTA
-  </summary>
-	1. Setup time is the required time duration that the input data is stable before the triggering-edge of the clock.
-2. If data is changing within this setup time window, the input data might be lost and not stored in the flip-flop as metastability might occur.
-3. Metastability: When setup and hold time requirements are violated, the flip-flop state becomes unstable, and after an unpredictable duration, the state of the flip-flop can settle either way (1 or 0). This scenario is known as metastability.
-As shown in the following figure, output Q1 passes through the slow logic and arrives late at the input D2 of FF2, which leads to setup time violation and the loss of the new data. Thus combinational delay must be less than clock frequency - setup time
-![Screenshot from 2023-09-18 01-00-12](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/ea2c2f5f-0979-428b-8e98-701a8a92081b)
 
 </details>
 
