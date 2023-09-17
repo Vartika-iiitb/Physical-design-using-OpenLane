@@ -570,7 +570,32 @@ The following fig shows the spicedeck Simulation:
 
 ![Screenshot from 2023-09-17 15-36-23](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/735f1fb9-3d19-4ca2-9421-ba9f3d1b29de)
 
-The model file for the same is shown below:
+
+
+</details>
+<details>
+  <summary>
+    Inception of layout A CMOS fabrication Process
+  </summary>
+  
+  **The output of 16 mask CMOS process**
+  
+  ![Screenshot from 2023-09-17 22-22-55](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/d2dbc504-4ca0-4303-9127-3978b153dde8)
+
+ **Basic layers layout and LEF using inverter**
+ 
+1. We see the layers which are required for CMOS inverter from the layout.
+2. Gates of both PMOS and NMOS are connected together and fed to input, NMOS source connected to ground(here, VGND), PMOS source is connected to VDD(here, VPWR)
+3. Drains of PMOS and NMOS are connected together and fed to output(here, Y).
+4. The First layer in skywater130 is localinterconnect layer(locali) , above that metal 1 is purple color and metal 2 is pink color.
+
+</details>
+
+<details>
+  <summary>
+    sky130 tech file labs
+  </summary>
+  The model file for the same is shown below:
 
 ```
 * SPICE 3f5 Level 8, Star-HSPICE Level 49, UTMOST Level 8
@@ -664,7 +689,7 @@ display
 plot out vs in
 ```
 
-![Screenshot from 2023-09-17 18-23-29](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/b6672a71-721d-42bf-b145-ca61419eca1c)
+![Screenshot from 2023-09-17 19-32-58](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/37fb50ed-7fb6-465c-9314-052f083de012)
 
 Now if we increase the width of PMOS W = 0.9375, observe the changes:
 
@@ -672,21 +697,25 @@ Now if we increase the width of PMOS W = 0.9375, observe the changes:
 
 Here is the cmos.cir file:
 
-![Screenshot from 2023-09-17 19-33-20](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/11306586-2ab7-4ada-802b-1ae8ec9e447b)
+![Screenshot from 2023-09-17 19-33-20](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/b66d4e20-b1f9-4063-9efb-b631a919b47e)
 
 
-</details>
-<details>
-  <summary>
-    Inception of layout A CMOS fabrication Process
-  </summary>
-</details>
 
-<details>
-  <summary>
-    sky130 tech file labs
-  </summary>
-  
+![Screenshot from 2023-09-17 19-33-47](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/9aa73ddc-b7aa-4049-be07-643819c8cce7)
+
+out vs time graph is shown below:
+
+![Screenshot from 2023-09-17 19-33-47](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/7a043460-3244-4045-a0b1-87777f2bef52)
+
+out vs time vs in graph is shown below:
+
+![Screenshot from 2023-09-17 19-36-38](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/f63ea69d-c4fe-4e90-ad85-c24048fded26)
+
+The zoomed in graph for the previous one is shown below:
+
+![Screenshot from 2023-09-17 19-49-20](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/6dd307ae-a722-4e53-8643-3c8a0a327642)
+
+
 </details>
 
 # DAy 4 : Pre Layout Timing Analysis and importance of good clock Tree
