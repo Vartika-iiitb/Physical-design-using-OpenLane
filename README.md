@@ -230,4 +230,78 @@ run_synthesis
 
 ```
 
+Steps to install docker:
+
+```
+sudo apt-get remove docker docker-engine docker.io containerd runc
+# Installation of requirements
+sudo apt-get update
+sudo apt-get install \
+   ca-certificates \
+   curl \
+   gnupg \
+   lsb-release
+# Add the keyrings of docker
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+# Add the package repository
+echo \
+   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# Update the package repository
+sudo apt-get update
+
+# Install Docker
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+# Check for installation
+sudo docker run hello-world
+
+```
+
+Fig below shows the installation:
+
+![Screenshot from 2023-09-17 11-44-41](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/8dbe291f-7c57-4d8d-b984-b4cebaa73def)
+
+For run synthesis:
+![Screenshot from 2023-09-17 11-47-07](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/cb22d155-1f26-4e7b-9cb5-0b8d70d469d8)
+
+</details>
+
+# Day2: Good Floorplan vs Bad Floor Plan and Introduction to library cells
+<details>
+  <summary>
+    Chip Floorplanning and considerations
+  </summary>
+  
+   **Core**
+   The width of the core typically refers to the physical size or dimensions of the central processing unit (CPU) or processor core within a microchip. It is usually measured in nanometers (nm) or micrometers (µm). For example, you might hear about a "14nm core" or a "7nm core," indicating the feature size of the core's transistors.
+The height of the core is not commonly referred to in the same way as the width. Instead, the core's size is usually described in terms of its area, which is determined by multiplying its width and height.
+
+**Die**
+The width of the die is typically the physical measurement of the semiconductor wafer after all the individual ICs (integrated circuits) have been fabricated on it but before they are cut apart. Die widths can vary significantly depending on the specific manufacturing process and the design of the chips being produced. They can range from a few millimeters to several centimeters or more.
+
+Similar to the core, the height of the die is not a common parameter of discussion. Instead, the die's size is often described in terms of its area, which is the product of its width and height.
+
+The fig shown below shows the representation:
+
+![Screenshot from 2023-09-17 13-02-05](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/8d6550e2-42b0-4a7c-bc3e-2a174ba60046)
+
+  **Utilization Factor**
+  
+  In the context of ASIC (Application-Specific Integrated Circuit) design, the term "utilization factor" refers to the ratio of the occupied area of the chip to the total available silicon area on the semiconductor wafer. It is often expressed as a percentage. The utilization factor provides insight into how efficiently the chip's resources, including logic gates, memory cells, and other components, are used within the available silicon real estate.
+
+Here's how to calculate the utilization factor:
+
+Utilization Factor (%) = (Occupied Silicon Area / Total Silicon Area) x 100
+
+Fig below shows the utilization Factor:
+
+![Screenshot from 2023-09-17 12-55-02](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/070e4c6f-1a28-4249-b3ce-e42b5317a3e4)
+
+
+
+**Aspect ratio**
+ Aspect ratio will decide the size and shape of the chip. It is the ratio between horizontal routing resources to vertical routing resources (or) ratio of height and width. Aspect ratio = width/height.Aspect ratio of 1 signifies that the die is of square shape and any other value other than 1 signifies that the die is rectangular shape.
+ 
 </details>
