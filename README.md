@@ -736,11 +736,136 @@ Design Rule Checking (DRC) is a vital step in the physical design process, ensur
    Power Distribution network and Routing
   </summary>
   
+  It is an infrastructure that provides a stable and reliable supply of electrical power to all components within an integrated circuit (IC) or chip. Generating a proper PDN is essential to ensure that all devices on the chip receive the required voltage levels with minimal noise and voltage drops.
+
+The first step in generating the PDN is to plan the power grid. This involves determining the overall power requirements of the chip, including the voltage levels (typically VDD and VSS or ground) and the current needs of different functional blocks.
+
+Designers also need to consider the power delivery network's topology, including the placement of power rails and ground lines, as well as the arrangement of power domains and their connectivity.
+
+To stabilize the voltage and reduce noise, decapacitors (decaps) are strategically placed within the chip. Decaps act as local energy reservoirs and help compensate for sudden changes in current demand, especially during switching events.
+
+The selection and placement of decaps are based on the expected load and voltage fluctuations in different regions of the chip.
+
+we can check whether PDN has been created or no by check the current def environment variable:
+
+```
+echo $::env(CURRENT_DEF) and then gen_pdn
+
+```
+
+
+![Screenshot from 2023-09-17 18-00-51](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/f238b312-d1ec-484e-8aa8-7f067c633e29)
+
+![Screenshot from 2023-09-17 18-02-03](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/afbc055b-15fe-432e-85f4-ee6d1240bb80)
+
+Optimization techniques such as buffer insertion, voltage islands, and voltage scaling may be applied to improve PDN performance.After the chip's layout is complete, designers perform post-layout verification to confirm that the actual layout adheres to the PDN plan and design rules. Any discrepancies or issues are addressed.Once the PDN is successfully generated and verified, and all design rules are met, the chip design is considered ready for tape-out. The final layout data is sent to a semiconductor foundry for fabrication.
+
+**Routing**
+Routing refers to the process of determining the physical paths that electrical connections will take on the chip's layout. These connections, also known as metal traces or wires, are used to connect various components, such as logic gates, memory cells, and input/output (I/O) pads, on the chip. Routing plays a crucial role in determining the performance, power consumption, and manufacturability of the ASIC. 
+
+![Screenshot from 2023-09-17 18-04-35](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/70c2c60d-f5f1-45a9-90ac-c252341f403d)
+
+![Screenshot from 2023-09-17 18-05-20](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/9d2a216f-6343-445a-88f6-1415037fe448)
+
+**Global Routing vs Detailed Routing**
+
+Global routing and detailed routing are two distinct phases of the routing process in integrated circuit (IC) design. Each phase serves a specific purpose and involves different levels of abstraction and detail. Here's a comparison of global routing and detailed routing in ASIC or IC design:
+
+**1. Purpose:**
+
+Global Routing:
+
+The primary goal of global routing is to determine approximate paths for connecting distant components or blocks on the chip.
+It focuses on high-level considerations, such as wirelength optimization, congestion avoidance, and minimization of signal delays at a high level.
+
+Detailed Routing:
+
+Detailed routing follows global routing and aims to refine the connections by determining the exact placement of each wire segment.
+It resolves conflicts, overlaps, and congestion at a finer level of detail.
+The main purpose is to create a physically realizable layout that adheres to manufacturing constraints.
+
+**2. Level of Detail:**
+
+Global Routing:
+
+Global routing operates at a higher level of abstraction.
+It typically represents wires as abstract "tracks" without specifying their exact locations or paths.
+The focus is on creating a high-level interconnection plan.
+Detailed Routing:
+
+Detailed routing operates at a lower level of abstraction.
+It defines the precise positions and shapes of individual wires or metal traces.
+It takes into account the detailed geometries of the chip's layout layers.
+
+**3. Timing:**
+
+Global Routing:
+
+Global routing considers timing constraints but often as high-level constraints.
+It aims to establish a feasible, high-level interconnect topology that meets global timing goals.
+Detailed Routing:
+
+Detailed routing refines the connections while ensuring that specific timing requirements are met.
+It addresses fine-grained timing issues, such as signal delays and skew.
+Wirelength Optimization:
+
+Global Routing:
+
+Global routing is responsible for an initial estimation of wirelength.
+Its primary objective is to minimize the total wirelength across the entire chip.
+Detailed Routing:
+
+Detailed routing fine-tunes the wirelength and optimizes the paths for individual connections.
+It may involve bending or shaping wires to fit the chip's layout.
+
+**4. Complexity:**
+
+Global Routing:
+
+Global routing is computationally less intensive compared to detailed routing.
+It is usually performed relatively quickly to provide a high-level interconnection plan.
+Detailed Routing:
+
+Detailed routing is more computationally demanding and time-consuming due to the need to consider precise geometries, manufacturing constraints, and timing details.
+
+**5. Iteration:**
+
+Global Routing:
+
+Global routing is often performed as an initial step in the routing process.
+The results of global routing can influence the subsequent detailed routing phase.
+Detailed Routing:
+
+Detailed routing may involve multiple iterations and refinements to optimize the placement of individual wires.
+In summary, global routing and detailed routing are sequential phases in the routing process of IC design. Global routing provides a high-level interconnect plan, while detailed routing refines the plan to meet timing, manufacturing, and physical layout constraints. Both phases are essential for creating a reliable and manufacturable chip design.
+
+![Screenshot from 2023-09-17 18-12-27](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/ed6fdd19-cea9-497f-b5cf-1b459a9dc039)
+
+
 </details>
 
 <details>
   <summary>
    Triton Route Features
   </summary>
+  Feature-1 Honors pre-processed route guides
+
+1. Adherence to Pre-Processed Route Guides: TritonRoute places significant emphasis on following pre-processed route guides.
+2. This involves several actions: Initial Route Guide Analysis: TritonRoute analyzes the directions specified in the preferred route guides. If any non-directional routing guides are identified, it breaks them down into unit widths.
+3. Guide Splitting: In cases where non-directional routing guides are encountered, TritonRoute divides them into unit widths to facilitate routing.
+4. Guide Merging: TritonRoute merges guides that are orthogonal (touching guides) to the preferred guides, streamlining the routing process.
+5. Guide Bridging: When it encounters guides that run parallel to the preferred routing guides, TritonRoute employs an additional layer to bridge them, ensuring efficient routing within the preprocessed guides.
+6. Route guides are followed to satisfy inter- guide connectivity. Requirements of preprocessed route guides: Must have unit width and must be in the predefined direction. Directions of metal ensures minimum capacitances
+   
+   The tool takes into account the placement of standard cells, macro blocks, and other routing tracks as obstacles when determining the path of wires. It avoids collisions and ensures connectivity. TritonRoute employs routing algorithms to find the optimal paths for interconnections. The choice of algorithm can impact factors such as wirelength, signal delay, and power consumption.
+
+TritonRoute-generated layouts are subject to physical verification steps to check for manufacturing-related issues, such as design rule violations and DRC errors.
+**Triton route run for routing**
+We start routing with : run_routing
+
+This will do both global and detailed routing, this will take multiple optimization iterations until the DRC violation is reduced to zero. The zeroth iteration has 27426 violations and only at the 8th iteration was all violations solved.
+
+![Screenshot from 2023-09-17 18-23-29](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/10a25da4-f8f9-47f3-ae88-23037ad50719)
+
 </details>
 
