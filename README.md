@@ -303,5 +303,245 @@ Fig below shows the utilization Factor:
 
 **Aspect ratio**
  Aspect ratio will decide the size and shape of the chip. It is the ratio between horizontal routing resources to vertical routing resources (or) ratio of height and width. Aspect ratio = width/height.Aspect ratio of 1 signifies that the die is of square shape and any other value other than 1 signifies that the die is rectangular shape.
- 
+
+ **Preplaced cells**
+ Preplaced cells, often referred to as "macrocells" or "hard macros," are fixed or predefined blocks of logic or functional units within the layout of an integrated circuit (IC) or an ASIC (Application-Specific Integrated Circuit). Unlike standard cells, which are synthesized and placed automatically during the design process, preplaced cells are manually positioned and sized by the chip designer. These cells are typically used for specific, well-defined functions and are placed in critical areas of the chip layout to meet certain design objectives.Pre-placed cells are often used for critical components of a design, such as memory blocks, analog modules, or specialized digital circuits that need to be precisely located to meet performance, power, or area constraints. Placing them manually ensures that they are in the optimal positions for meeting these requirements.In large and complex chip designs, pre-placed cells can be used to create a hierarchical structure, where certain functional blocks or subsystems are pre-placed and interconnected. This approach simplifies the overall design process and allows for better management of the design's complexity.
+
+![Screenshot from 2023-09-17 14-31-18](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/56defa42-ed58-486a-ab7b-0eefb33bebe4)
+
+**Decoupling Capacitor**
+
+![Screenshot from 2023-09-17 14-33-36](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/5484fa44-8024-41bf-bd4f-38fb1fce0dfb)
+
+**Noise Margin**
+
+![Screenshot from 2023-09-17 14-36-06](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/7cd9658c-2095-4d76-b8b7-373c8e1d46a9)
+
+Noise margin, in the context of ASIC (Application-Specific Integrated Circuit) design, refers to the amount of noise or voltage fluctuations that a digital logic gate or circuit can tolerate while still correctly recognizing logic levels (0 or 1). It is an essential consideration in the design of digital circuits to ensure reliable operation in real-world conditions where noise and variations in supply voltage can occur. Noise margin is typically expressed in volts and can be categorized into two main types: high noise margin (NMH) and low noise margin (NML).
+
+High Noise Margin (NMH): NMH is the maximum voltage noise that can be added to the HIGH (logic 1) level of a digital signal without causing the gate to misinterpret it as a LOW (logic 0) level. In other words, it represents the tolerance of the gate to noise on the high side.
+
+NMH = VOH - VIH
+
+VOH: The minimum output voltage for a logic HIGH.
+VIH: The minimum input voltage that the gate recognizes as a logic HIGH.
+Low Noise Margin (NML): NML is the maximum voltage noise that can be added to the LOW (logic 0) level of a digital signal without causing the gate to misinterpret it as a HIGH (logic 1) level. It represents the tolerance of the gate to noise on the low side.
+
+NML = VIL - VOL
+
+VIL: The maximum input voltage that the gate recognizes as a logic LOW.
+VOL: The maximum output voltage for a logic LOW.
+The difference between NMH and NML indicates the margin of safety against noise in a digital circuit. A larger noise margin provides better immunity to noise and ensures more reliable operation. Designers typically aim to maximize both NMH and NML to create robust digital circuits.
+
+Noise margin is influenced by various factors, including:
+
+Threshold voltage (VTH) of the transistors used in the logic gates.
+Supply voltage (VDD) and ground voltage (GND) levels.
+Variation in environmental conditions, such as temperature and voltage fluctuations.
+Process variations during chip manufacturing.
+To ensure proper noise margin in ASIC design, designers must consider these factors and select appropriate transistor sizes, supply voltage levels, and design techniques. Additionally, performing noise margin analysis and simulation during the design phase helps identify potential issues and allows for adjustments to improve circuit robustness in noisy environments.
+
+In summary, noise margin in ASIC design quantifies the tolerance of digital logic gates to noise and voltage fluctuations. High noise margin ensures reliable operation and immunity to noise-induced errors in digital circuits.
+
+**Power Planning**
+Power planning, in the context of integrated circuit (IC) design, is a critical step in the process of ensuring that the chip operates reliably while managing power consumption efficiently. It involves the strategic distribution and management of power supply networks, as well as the control of power domains and voltage levels within the chip. The primary goals of power planning are to provide stable power delivery to all components, minimize power dissipation, and avoid voltage drop issues.
+
+**Pin Placement**
+Pin placement, in the context of integrated circuit (IC) design, refers to the strategic placement of input and output (I/O) pins or pads on the chip's physical layout. This process is crucial for ensuring proper connectivity between the chip and external devices, such as other chips, connectors, or printed circuit boards (PCBs). Effective pin placement is essential for achieving electrical, mechanical, and manufacturing objectives in IC design.
+
+**Floorplan using OpenLANE**
+
+```
+run_floorplan
+```
+
+![Screenshot from 2023-09-17 11-48-26](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/7ad02b3e-5d06-45c7-97a9-34b4fddda932)
+
+Magic is invoked after moving to the floorplan directory:
+
+```
+magic  /home/vartika/.volare/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.min.lef def read picorv32.def
+
+```
+Below is the representation:
+
+![Screenshot from 2023-09-17 11-48-26](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/6742936d-a721-4ebf-a6f4-f0e5d6030d0e)
+
+**Initial Place Design**
+
+**Library Binding and placement**
+
+Netlist binding and Initial Placement
+
+1. All the logic cells in the netlist are visualised as physical cells with a defined width and height for design
+2. A library has all the physical cells with each logic functionality with timing and area information.
+3. Library also has different physical variants of logic cells
+4. The logic cells of the generated netlist should not be placed over the pre-placed cells.
+
+**Optimized placement**
+
+1. Logic cells are placed such that they are close to their respective inputs on the die.
+2. Optimized placement is done by placing, input flop close to the input port and output close to the output port.
+3. We estimate the wire length and capacitance and based on that we insert repeaters, if there is a long path from the input port to the flipflop
+4. Slew is dependent on the capacitance value, higher is the capacitance more is the slew.
+5. If the distance between the input port and flip-flop is not sufficient to maintain the signal integrity, we add buffers/repeaters in the path to reproduce 
+   input signal through the path without any loss of signal.
+6. The cells which work at very high frequency are made sure to be placed together, so that there is no delay produced from the wires between the logic cells.
+
+   **Optimized cell and routed cell**
+   
+   ![Screenshot from 2023-09-17 14-52-24](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/b491695f-d550-476d-9397-ac1aec7e5087)
+
+**Placement**
+Placement in openlane occurs in two stages:
+
+1. Global Placement: It finds optimal position for all cells which may not be legal and cells may overlap. Optimization is done through reduction of half parameter wire length[HPWL]. Overlap parameter should also reduce while we run placement.
+2. Detailed Placement: It alters the position of cells placed in the global placement step to legalise them
+use :
+
+```
+  run_placement
+```
+To view Placement:
+
+```
+  cd ~/OpenLane/designs/picorv32a/runs/RUN_2023.09.14_10.50.04/results/placement
+  magic -T /home/vartika/.volare/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.nom.lef def read picorv32.def &
+```
+
+![Screenshot from 2023-09-17 11-53-09](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/9e1328e4-06ae-416c-91df-856a0c5c1c2e)
+
+
+![Screenshot from 2023-09-17 11-55-14](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/ea6cbdbf-4b37-4235-b877-bf224d8d3122)
+
+![Screenshot from 2023-09-17 11-56-30](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/7c77732a-8eb9-44be-90d5-09c8be776210)
+
+**Cell Design Flow**
+
+The cell design flow in ASIC (Application-Specific Integrated Circuit) design refers to the process of designing and creating standard cells, which are the fundamental building blocks of digital integrated circuits. Standard cells are pre-designed, reusable modules that include basic logic gates, flip-flops, latches, and other components. They play a crucial role in digital IC design, allowing designers to create complex digital circuits efficiently. The cell design flow typically involves the following steps:
+
+1. Specification and Requirements:
+
+1.1 Define the functional requirements for the standard cell library.
+1.2 Determine the target technology node, voltage levels, and other design parameters.
+1.3 Specify the library's logical and electrical characteristics, including cell types, drive strengths, and functionality.
+
+2. Cell Architecture and Cell Library Definition:
+
+2.1 Define the architecture of the standard cells, including the height and width of each cell, the number of input and output pins, and the arrangement of internal transistors.
+2.2 Create a library of cell templates with different functionalities and drive strengths, ranging from basic gates to more complex functions.
+Schematic Design:
+
+3. Create schematic diagrams for each standard cell in the library.
+3.1Design and layout the internal logic gates, interconnections, and transistors to implement the desired functionality.
+3.2 Ensure that the cells adhere to the specified logical and electrical characteristics.
+   
+4. Simulation and Verification:
+4.1 Simulate the standard cell designs using electronic design automation (EDA) tools and digital simulators.
+4.2 Verify that the cells meet timing constraints, operate correctly, and adhere to logical and electrical specifications.
+4.3 Perform static timing analysis (STA) to assess the cell's performance under various conditions.
+   
+5. Layout Design:
+   
+5.1 Generate the physical layout of each standard cell, considering the placement and sizing of transistors, routing of metal layers, and adherence to design rules.
+5.2 Follow foundry-specific design rules and guidelines to ensure manufacturability.
+5.3 Implement DFM (Design for Manufacturability) techniques to improve the manufacturability of the cells.
+
+6. Extraction and Modeling:
+
+6.1 Extract parasitic capacitance and resistance information from the layout.
+6.2 Create models (e.g., timing, power, and noise models) for the standard cells based on the extracted data.
+
+7. Characterization:
+
+7.1 Characterize the standard cells by measuring their electrical characteristics, such as timing, power consumption, and noise sensitivity.
+7.2 Generate libraries of timing models for use in digital synthesis and static timing analysis.
+
+8. Quality Assurance and Testing:
+
+8.1 Perform extensive testing and verification to ensure that the standard cells meet the specified requirements and adhere to design and manufacturing rules.
+8.2 Address any issues, optimize cell designs, and update the library as needed.
+
+9. Documentation:
+
+9.1 Create comprehensive documentation for each standard cell, including datasheets, functional descriptions, and usage guidelines.
+9.2 Document the library's logical and electrical characteristics for designers' reference.
+
+10. Integration into the Design Flow:
+
+10.1 Integrate the standard cell library into the broader ASIC design flow, making it available for digital design and synthesis tools.
+10.2 Ensure that the library is compatible with industry-standard EDA tools and design methodologies.
+10.3 The cell design flow is a fundamental part of ASIC design, providing designers with a library of well-characterized and verified building blocks that can be used to construct complex digital circuits efficiently. The quality and performance of the standard cell library have a significant impact on the overall success of an ASIC design project.
+
+The fig shown below shows the Cell design flow:
+
+![Screenshot from 2023-09-17 15-01-40](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/c3fb1380-1c61-48af-9b5f-77f1308009f8)
+
+![Screenshot from 2023-09-17 15-08-42](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/45bbde36-71a6-4019-b18a-a26153e3fdae)
+
+![Screenshot from 2023-09-17 15-08-47](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/0401b3c4-7a8d-409a-a9d2-c5545da5735b)
+
+![Screenshot from 2023-09-17 15-09-03](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/7179f8b0-23d7-4614-a36c-5f5443668c38)
+
+The stick diagram for the following is shown below:
+
+![Screenshot from 2023-09-17 15-10-41](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/244a22ef-143d-4eeb-af6b-7f6768b586d4)
+
+</details>
+
+<details>
+  <summary>
+    Cell Design and characterisation flow
+  </summary>
+  All the standard cells used in the design are placed in a library. We get a variant of standard cells in terms of functionality, area and power.
+Each cell goes through cell design flow before being used in our design.
+
+  **Characterisation Flow**
+  Characterization in VLSI refers to the process of analyzing and documenting the electrical behavior of electronic components, such as transistors, logic gates, memory cells, and standard cells, under various operating conditions. Characterization is essential for accurate circuit simulation and helps ensure that integrated circuits (ICs) meet their performance, power, and timing requirements.
+1. Read in the model files
+2. Read the extracted spice netlist
+3. Recognize behaviour of the model
+4. Read the sub-circuits of inverter
+5. Attach necessary power source (Vdd, GND)
+6. Apply the stimulus
+7. Provide necessary output capacitance
+8. Provide simulation command
+
+   ![Screenshot from 2023-09-17 15-19-51](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/337d10d7-f7df-496e-a5c6-56c97f86d5b9)
+
+The following fig shown below shows the Characterization Flow:
+
+![Screenshot from 2023-09-17 15-16-44](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/80925a34-10f5-4793-a001-0fd0741b57fb)
+
+![Screenshot from 2023-09-17 15-16-52](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/ecdde2cf-84ef-446a-ab32-826b754b59cc)
+
+</details>
+<details>
+  <summary>
+    Timing Characterization Parameter
+  </summary>
+  The Timing Threshold Definitions:
+  
+  ![Screenshot from 2023-09-17 15-23-16](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/28c1a1e0-0229-41ef-9ca7-ddda17fe0ae2)
+
+**Propagation Delay**
+ The time difference between when the transitional input reaches 50% of its final value and when the output reaches 50% of its final value.
+
+![Screenshot from 2023-09-17 15-23-27](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/8c644640-6cc7-4203-bc1b-4627b37f9924)
+
+**Transition Time**
+ Transition time is known as time needed to a signal to rise from 10% to 90% or to fall from 90% to 10%. The former is called rise time and later is known as fall time.
+
+![Screenshot from 2023-09-17 15-23-41](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/2ff3ea82-53ed-4f33-bffe-b12bbef8951f)
+
+```
+rise delay =  time(out_fall_thr) - time(in_rise_thr)
+
+Propagation delay = time(out_thr) - time(in_thr)
+
+Fall transition time: time(slew_high_fall_thr) - time(slew_low_fall_thr)
+
+Rise transition time: time(slew_high_rise_thr) - time(slew_low_rise_thr)
+```
+
 </details>
