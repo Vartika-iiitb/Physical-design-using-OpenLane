@@ -767,7 +767,144 @@ Executing it in ngspice:
   <summary>
     Timing Modelling using delay tables
   </summary>
-  
+
+Convert grid into Track info
+
+
+  ![Screenshot from 2023-09-18 00-36-09](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/9d02bc81-8ffd-4132-ba0d-a2a93bfc292c)
+
+ key criterion outlined in the tracks.info specification is that ports must be positioned at the juncture of both horizontal and vertical tracks. Specifically, when dealing with the CMOS Inverter, ports A and Y are designated to reside within the li1 layer. It is imperative to guarantee that these ports are indeed situated precisely at the intersection of horizontal and vertical tracks.Below is the command:
+
+```
+grid 0.46um 0.34um 0.23um 0.17um
+```
+The following fig shows the grid representation:
+
+![Screenshot from 2023-09-18 00-39-30](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/c19b1d70-c880-429e-813a-0a35549317a1)
+
+The subsequent step in the process involves the extraction of the LEF file for the completed layout of the cell. This crucial step is essential to facilitate the placement and routing tools effectively. It necessitates the precise specification of characteristics and definitions for the cell's pins. Ports, which represent the declared PINs of the macro, are encapsulated within a cell and are formatted as a macro cell in LEF files. Our primary objective is to generate an LEF file in a predefined format based on a given configuration, such as a straightforward CMOS inverter. To accomplish this, the initial task is to meticulously define each port and allocate the appropriate class and use attributes to each one.
+
+To establish the port configuration, you can utilize the Magic console, and here's a detailed breakdown of the steps involved:
+
+Begin by opening the Magic Layout window.
+
+Source the .mag file associated with your design, in this case, the inverter layout.
+
+Navigate to the "Edit" menu and select "Text." This action will prompt a dialogue box to appear.
+
+Within the dialogue box, double-click on the letter 'S' located at the I/O labels on the layout.
+
+You will notice that the text field automatically populates with the appropriate string name and size for the port.
+
+To finalize the port definition, ensure that the "Port enable" checkbox is selected, indicating that this element functions as a port. Additionally, make sure that the "Default" checkbox remains unchecked.
+
+Your port configuration is now set up as illustrated in the figure.
+
+![Screenshot from 2023-09-18 00-41-05](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/d3abdf44-bcd6-4ad2-b017-7b883832b21b)
+
+![Screenshot from 2023-09-18 00-41-36](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/a9ffe778-3baf-4664-b939-f0e2e77b86f6)
+
+```
+port A class input
+port A use signal
+
+port Y class output
+port Y use signal
+
+port VPWR class inout
+port VPWR use power
+
+port VGND class inout
+port VPWR use ground
+```
+
+![Screenshot from 2023-09-18 00-46-03](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/8ba212d6-77d6-40a3-92ab-7c255ee8cce8)
+
+Custom cells to penLANE flow:
+
+```
+
+# Design
+set ::env(DESIGN_NAME) "picorv32a"
+
+set ::env(VERILOG_FILES) "$::env(DESIGN_DIR)/src/picorv32a.v"
+
+set ::env(CLOCK_PORT) "clk"
+set ::env(CLOCK_NET) $::env(CLOCK_PORT)
+
+set ::env(GLB_RESIZER_TIMING_OPTIMIZATIONS) {1}
+
+set ::env(LIB_SYNTH) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__typical.lib"
+set ::env(LIB_SLOWEST) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__slow.lib"
+set ::env(LIB_FASTEST) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__fast.lib"
+set ::env(LIB_TYPICAL) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__typical.lib"
+
+set ::env(EXTRA_LEFS) [glob $::env(OPENLANE_ROOT)/designs/$::env(DESIGN_NAME)/src/*.lef]
+
+set filename $::env(DESIGN_DIR)/$::env(PDK)_$::env(STD_CELL_LIBRARY)_config.tcl
+if { [file exists $filename] == 1} {
+	source $filename
+}
+
+````
+To Integrate standard cell into the OpenLANE flow:
+
+```
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+```
+![Screenshot from 2023-09-18 00-49-10](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/825a116d-cb90-4d4a-aad4-59e3df686a5f)
+
+  **Introduction to delay Tables**
+  In the context of digital integrated circuit (IC) design, delay tables (also known as delay models or delay tables) are data structures or lookup tables used to model the timing characteristics of logic gates, interconnects, and other components in the design. These tables capture information about the propagation delay and transition times of signals through various elements in the digital circuit. Delay tables are a fundamental component of the design process, as they help designers ensure that the circuit meets its timing requirements.
+
+Here are key points about delay tables:
+
+1. Propagation Delay: Delay tables provide information about the time it takes for a signal to propagate through a specific logic gate or interconnect. Propagation delay is typically measured from the time when an input signal reaches a certain threshold level to when the output signal reaches the same threshold level.
+
+2. Transition Times: In addition to propagation delay, delay tables may include information about transition times, which represent how quickly a signal transitions from one logic state (e.g., low to high or high to low) to another.
+
+3. Input Conditions: Delay tables are often organized based on input conditions. They specify the delay characteristics for different input patterns or signal conditions. For example, they may include tables for different input slew rates, voltage levels, or fanout conditions.
+
+4. Library Cells: Delay tables are associated with library cells, which are predefined building blocks that represent standard logic gates (e.g., AND, OR, XOR) or flip-flops. Each library cell in the design library has its own delay table, capturing its timing characteristics under various conditions.
+
+5. Technology Libraries: Semiconductor foundries provide technology libraries that include delay tables for their specific manufacturing processes. These libraries are essential for accurately modeling the behavior of cells in a given technology node.
+
+6. Use in Timing Analysis: Delay tables are crucial for timing analysis in the design process. Timing analysis tools use these tables to estimate the worst-case and best-case delays for signals as they traverse the logic gates and interconnects in the design. This information helps ensure that the circuit meets its timing requirements, such as setup and hold times.
+
+7. Incorporating Environmental Factors: Delay tables may also incorporate environmental factors, such as temperature and voltage variations, to account for variations in operating conditions. These factors can impact the timing behavior of the circuit.
+
+8. Corner Cases: Designers often consider corner cases, which represent extreme conditions (e.g., worst-case voltage and temperature conditions), when analyzing delay tables to ensure that the design remains robust under all operating conditions.
+
+9. Simulation and Synthesis: Delay tables play a critical role in simulation and synthesis processes. During simulation, they are used to accurately model the behavior of the design. In synthesis, they are considered to optimize the logic structure for timing and power constraints.
+
+Overall, delay tables are an integral part of the design and analysis of digital ICs. They enable designers to evaluate and optimize the timing behavior of a circuit, ensuring that it meets performance requirements while accounting for variations and different operating conditions.
+
+**Setup time and HOLD time**
+
+Setup Time:
+
+Definition: Setup time (Tsu) is the minimum amount of time that a data input signal (D) must be stable and valid before the clock signal (CLK) transitions from its inactive state (typically low) to its active state (typically high or rising edge).
+Purpose: Setup time ensures that the data input has settled to its intended value before the clock edge arrives. This is crucial for preventing setup time violations, where the flip-flop or latch might capture a corrupted or invalid data value.
+Violation: A setup time violation occurs when the data signal changes too close to or after the clock edge, potentially leading to incorrect data capture.
+Setup Time Diagram
+
+Hold Time:
+
+Definition: Hold time (Th) is the minimum amount of time that the data input signal (D) must remain stable and valid after the clock signal (CLK) transitions from its active state back to its inactive state.
+Purpose: Hold time ensures that the data input remains valid for a specified duration after the clock edge. This prevents hold time violations, which could lead to incorrect data capture or glitches in the output.
+Violation: A hold time violation occurs when the data signal changes too soon after the clock edge, potentially causing the flip-flop or latch to capture an incorrect data value.
+Hold Time Diagram
+
+In summary:
+
+**Setup Time:** It ensures that the data input is stable and valid before the clock edge, preventing late arrival of data.
+
+**Hold Time:** It ensures that the data input remains stable and valid after the clock edge, preventing early removal of data.
+Designers must consider setup and hold times when designing digital circuits to prevent timing violations. Violations can lead to unreliable operation, data corruption, and unpredictable behavior. Meeting these timing constraints often involves careful selection of flip-flops or latches and appropriate signal path delays to ensure that data transitions occur within the specified windows relative to clock edges. Advanced digital design tools and simulations are used to verify and optimize timing in complex digital systems.
+
+![Screenshot from 2023-09-18 01-00-12](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/f4e11978-2985-4842-aa7c-55cc0d0d9fa1)
+
 </details>
 
 <details>
