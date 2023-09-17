@@ -1,7 +1,7 @@
 # Advanced Physical-design-using-OpenLane
 
 
-#  Day 1 : Inception of open-source EDA ,OpenLANE and sky130 pdk
+#  DAY 1 : Inception of open-source EDA ,OpenLANE and sky130 pdk
 
 <details>
   <summary>
@@ -268,7 +268,7 @@ For run synthesis:
 
 </details>
 
-# Day2: Good Floorplan vs Bad Floor Plan and Introduction to library cells
+# DAY 2: Good Floorplan vs Bad Floor Plan and Introduction to library cells
 <details>
   <summary>
     Chip Floorplanning and considerations
@@ -546,7 +546,7 @@ Rise transition time: time(slew_high_rise_thr) - time(slew_low_rise_thr)
 
 </details>
 
-# Day 3 : Design Library cell using Magic Layout and ngspice Characterization 
+# DAY 3 : Design Library cell using Magic Layout and ngspice Characterization 
 
 <details>
   <summary>
@@ -762,11 +762,12 @@ Executing it in ngspice:
 
 </details>
 
-# DAy 4 : Pre Layout Timing Analysis and importance of good clock Tree
+# DAY 4 : Pre Layout Timing Analysis and importance of good clock Tree
 <details>
   <summary>
     Timing Modelling using delay tables
   </summary>
+  
 </details>
 
 <details>
@@ -787,7 +788,7 @@ Executing it in ngspice:
   </summary>
 </details>
 
-# Day 5 : Final steps for RTL2GDS using TriTON Route and OpenSTA
+# DAY 5 : Final steps for RTL2GDS using TriTON Route and OpenSTA
 <details>
   <summary>
     Routing and Design rule check (DRC)
