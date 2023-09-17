@@ -921,7 +921,8 @@ As shown in the following figure, output Q1 passes through the slow logic and ar
 **Clock Jitter**
 Clock jitter is a phenomenon in digital and analog systems that refers to the variation or deviation in the timing of a clock signal's edges from their ideal positions. Clock jitter can impact the reliability and performance of electronic systems and is an important consideration in various applications, including data communication, signal processing, and integrated circuit (IC) design. 
 
-![Screenshot from 2023-09-18 01-05-38](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/6e282aed-69c3-4170-9813-bcbd09691b1c)
+![Screenshot from 2023-09-18 01-05-38](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/f5b31278-76a4-4d87-bc53-ac0250a6af09)
+
 
 Different types of Jitter are as follows:
 
