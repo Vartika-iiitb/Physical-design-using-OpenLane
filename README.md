@@ -694,12 +694,48 @@ The model file for the same is shown below:
   <summary>
     Routing and Design rule check (DRC)
   </summary>
+
+  **Maze Routing and Lee's Algorithm**
+  The maze-routing algorithm you are referring to, often used in the context of chip multiprocessors (CMPs) and grid-based mazes, is designed to efficiently find routes or paths between two locations while minimizing overhead. This algorithm is essential in the field of integrated circuit design and routing, where the goal is to connect various components on a chip with minimal resource utilization. There are four steps of routing operations: Global Routing:
+
+1. Establishes a high-level path for each net.
+2. Focuses on overall routing topology.
+3. Avoids obstacles and congestion areas.
+   
+ **Track Assignment:**
+
+1. Divides routing area into tracks or channels.
+2. Allocates tracks to specific nets.
+3. Considers routing layer constraints.
+   
+**Detail Routing:**
+
+1. Determines precise routing paths for each net.
+2. Minimizes wirelength and avoids conflicts.
+3. Adheres to design rules and constraints.
+   
+**Search and Repair:**
+
+1. Identifies and resolves routing issues.
+2. Handles design rule violations and congestion.
+3. May require backtracking and iterative adjustments.
+   
+The Lee algorithm is a grid-based approach used for routing, particularly in chip design. It begins with designated source and target points and assigns labels to grid cells to find the shortest route between them, often favoring efficient L-shaped paths over zigzags. While valuable for global routing tasks, it can be time-consuming for complex designs with many pins. As a result, alternative algorithms have emerged to address scalability and specific routing challenges. The choice of routing method depends on the design's complexity and resource constraints.
+
+![Screenshot from 2023-09-17 16-02-28](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/62f38122-6186-43fe-96c0-bb959e8a4d76)
+
+**DRC**
+Design Rule Checking (DRC) is a vital step in the physical design process, ensuring that a design adheres to manufacturing constraints dictated by the chosen process technology. Each technology comes with its specific set of rules, which become more numerous and intricate as manufacturing technology advances to smaller nodes. DRC verifies compliance with these predefined process rules provided by foundries, safeguarding against chip failures. It plays a critical role in defining a chip's quality. Key DRCs involve physical wire attributes like minimum width, spacing, and pitch, and they address issues like signal short violations by utilizing additional metal layers while rigorously checking vias, width, and spacing.Each semiconductor manufacturing process will have its own set of guidelines and margins to ensure that normal manufacturing variability won't lead to chip failure. below mentioned are few examples of DRC : Minimum width and spacing for metal, Minimum width and spacing for via, Fat wire Via keep out Enclosure, End of Line spacing, Minimum area, Over Max stack level, Wide metal jog, Misaligned Via wire, Different net spacing, Special notch spacing, Shorts violation, Different net Via cut spacing, Less than min edge length
+
+![Screenshot from 2023-09-17 16-03-36](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/2b879116-f0b0-46b3-b126-ce3eef58bf28)
+
 </details>
 
 <details>
   <summary>
    Power Distribution network and Routing
   </summary>
+  
 </details>
 
 <details>
