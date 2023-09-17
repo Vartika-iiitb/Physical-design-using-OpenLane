@@ -649,6 +649,31 @@ The model file for the same is shown below:
 *
 .endl
 ```
+Here is the cmos.cir file:
+
+![Screenshot from 2023-09-17 19-33-20](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/9c52bb2f-c242-4ae6-bc87-58c07201ee01)
+
+Following Command have been used to run and execute ngspice:
+
+```
+source cmos.cir
+run
+setplot
+set the dc plot
+display
+plot out vs in
+```
+
+![Screenshot from 2023-09-17 18-23-29](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/b6672a71-721d-42bf-b145-ca61419eca1c)
+
+Now if we increase the width of PMOS W = 0.9375, observe the changes:
+
+![Screenshot from 2023-09-17 19-32-58](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/822a5df2-a544-42ef-b870-f2b50f7d9f54)
+
+Here is the cmos.cir file:
+
+![Screenshot from 2023-09-17 19-33-20](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/11306586-2ab7-4ada-802b-1ae8ec9e447b)
+
 
 </details>
 <details>
