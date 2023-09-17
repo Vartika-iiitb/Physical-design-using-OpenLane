@@ -717,6 +717,49 @@ The zoomed in graph for the previous one is shown below:
 ![Screenshot from 2023-09-17 19-49-20](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/6dd307ae-a722-4e53-8643-3c8a0a327642)
 
 
+First git clone the vsdstdcelldesign repository using below command :
+```
+git clone https://github.com/nickson-jose/vsdstdcelldesign
+```
+There will be sky130_inv.mag file
+
+Use the sky130A.tech file from the libs folder when you are running the magic.
+
+To run the layout design in magic use the below command :
+
+```
+magic -T sky130A.tech sky130_inv.mag &
+```
+
+![Screenshot from 2023-09-17 19-15-06](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/0cdaa1f0-7408-4ec0-8d9a-450b4a0d965a)
+
+![Screenshot from 2023-09-17 19-15-53](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/20fed668-9df9-43ca-a449-dde89437f34f)
+
+![Screenshot from 2023-09-17 22-45-37](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/1a00f0f5-352a-4aed-9ae2-610693630855)
+
+
+Now to extract it to spice use below command in magic terminal :
+```
+ext2spice
+```
+It will create sky130_inv.spice file :
+
+![Screenshot from 2023-09-17 20-11-17](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/0b7a92d7-3324-4d64-bf07-9bcc11108fc5)
+
+Now include the pshort.lib and nshort.lib libraries and modified the models.
+
+Then pulse is given in which format is below:
+
+PULSE(V1 V2 Tdelay Trise Tfall Ton Tperiod Ncycles)
+
+Below is the modified spice file:
+
+![Screenshot from 2023-09-17 20-20-37](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/7462dbb0-91e1-4866-8114-cca0fb6fe3d5)
+
+Executing it in ngspice:
+
+![Screenshot from 2023-09-17 22-57-25](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/0f6e2240-438a-4f6c-aaf7-34692e7fcd4b)
+
 </details>
 
 # DAy 4 : Pre Layout Timing Analysis and importance of good clock Tree
