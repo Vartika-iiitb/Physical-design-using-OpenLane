@@ -705,11 +705,12 @@ Here is the cmos.cir file:
 
 out vs time graph is shown below:
 
-![Screenshot from 2023-09-17 19-33-47](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/7a043460-3244-4045-a0b1-87777f2bef52)
+![Screenshot from 2023-09-17 19-45-45](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/ab1348c0-3ca1-41d5-b382-4a54fc04c942)
 
 out vs time vs in graph is shown below:
 
-![Screenshot from 2023-09-17 19-36-38](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/f63ea69d-c4fe-4e90-ad85-c24048fded26)
+![Screenshot from 2023-09-17 19-47-34](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/e2962353-94d6-4c89-be51-79102ad89ac4)
+
 
 The zoomed in graph for the previous one is shown below:
 
