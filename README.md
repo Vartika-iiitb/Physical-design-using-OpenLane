@@ -855,6 +855,44 @@ add_lefs -src $lefs
 ```
 ![Screenshot from 2023-09-18 00-49-10](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/825a116d-cb90-4d4a-aad4-59e3df686a5f)
 
+**Custom cell naming and lef extraction**
+
+Name of the custom cell :
+
+```
+sky130_vsdinv.mag
+```
+the modified config.json is
+
+![Screenshot from 2023-09-18 21-58-57](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/bf4fa7df-22cc-4692-b72a-594ed15f1a0b)
+
+In order to integrate the standard cell in the OpenLANE flow, invoke openLANE as usual and carry out following steps:
+
+```
+prep -design picorv32a 
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+run_synthesis
+```
+![Screenshot from 2023-09-18 21-15-53](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/4cf4a934-b0ae-479b-a0df-d2fa80dce7e7)
+
+![Screenshot from 2023-09-18 21-15-34](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/b3d0e67d-1a40-4b75-a45d-9587633f36dc)
+
+
+To check the layout invoke magic
+```
+magic -T /home/vartika/.volare/sky130A/libs.tech/magic/sky130A.tech lef read tmp/merged.nom.lef def read results/placement/picorv32.def 
+```
+
+![Screenshot from 2023-09-18 21-10-37](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/d00fde54-ad65-44ed-aacc-70d11e79a3ff)
+
+![Screenshot from 2023-09-18 21-11-02](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/89a2676e-fc67-4e82-8c08-399d945aaf79)
+
+![Screenshot from 2023-09-18 21-14-41](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/5c2f8ff9-87c7-40b0-b9c3-aefc008d1ddd)
+
+![Screenshot from 2023-09-18 22-07-49](https://github.com/Vartika-iiitb/Physical-design-using-OpenLane/assets/140998716/761c9241-4fa6-471d-8bf3-18114f71cd04)
+
+
   **Introduction to delay Tables**
   In the context of digital integrated circuit (IC) design, delay tables (also known as delay models or delay tables) are data structures or lookup tables used to model the timing characteristics of logic gates, interconnects, and other components in the design. These tables capture information about the propagation delay and transition times of signals through various elements in the digital circuit. Delay tables are a fundamental component of the design process, as they help designers ensure that the circuit meets its timing requirements.
 
